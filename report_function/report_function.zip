@@ -1,0 +1,18 @@
+import boto3
+ 
+def lambda_handler(event, context):
+    # Get the list of objects in the bucket
+    s3 = boto3.client('s3')
+    objects = s3.list_objects(Bucket='report_bucket555')
+ 
+    # Delete each object
+    for obj in objects['Contents']:
+        s3.delete_object(Bucket='report_bucket555', Key=obj['Key'])
+ 
+    # Check if any objects remain in the bucket
+    objects = s3.list_objects(Bucket='report_bucket555')
+    if len(objects) > 0:
+        # If objects remain, alert the DevOps team
+        # Add code here
+    else:
+        print('Bucket successfully emptied.')
